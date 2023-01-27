@@ -18,7 +18,7 @@ class _SearchScreenState extends BaseView<SearchScreen,SearchViewModel> implemen
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.blue
+        color: Colors.red
     );
   }
 
