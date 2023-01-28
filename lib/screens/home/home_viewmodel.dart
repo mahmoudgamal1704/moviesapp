@@ -9,4 +9,9 @@ class HomeViewModel extends BaseViewModel<HomeNavigator> {
      PopularResponse popularResponse = (await ApiManager.getpopularMovies())!;
     return popularResponse;
   }
+
+   // Future<NewReleaseResponse> getlatestMoviesresults() async {
+   //   NewReleaseResponse newReleaseResponse = (await ApiManager.getlatestMovies())!;
+   //   return newReleaseResponse;
+   // }
 }

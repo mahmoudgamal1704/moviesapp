@@ -16,7 +16,17 @@ class ApiManager {
     }else {
       return null;
     }
-
-
 }
+  // static  Future<NewReleaseResponse?> getlatestMovies() async {
+  //   Uri uri = Uri.https(BASE,latestEndPoint,{"api_key" : APIKEY,"language":"en-US"});
+  //   Response response = await http.get(uri);
+  //   if (response.statusCode ==200){
+  //     var json = jsonDecode(response.body);
+  //     return NewReleaseResponse.fromJson(json);
+  //   }else {
+  //     return null;
+  //   }
+  // }
+
+
 }
