@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/base.dart';
 import 'package:movieapp/layouts/popularlayout.dart';
+import 'package:movieapp/layouts/topratedlayout.dart';
 import 'package:movieapp/models/PopularResponse.dart';
 import 'package:movieapp/screens/home/home_nav.dart';
 import 'package:movieapp/screens/home/home_viewmodel.dart';
@@ -15,21 +16,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
     implements HomeNavigator {
-  late InfiniteScrollController scrollcontroller;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    scrollcontroller = InfiniteScrollController();
     viewModel.navigator = this;
   }
 
   @override
   void dispose() {
     super.dispose();
-    scrollcontroller.dispose();
+
   }
 
   @override
@@ -61,32 +59,73 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                   );
                 } else {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: Colors.white),
                   );
                 }
               },
             ),
           ),
           SizedBox(
+            height: 10,
+          ),
+          Expanded(
+              child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  color: Color.fromRGBO(40, 42, 40, 1.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("New Release"),
+                    ],
+                  ))),
+          SizedBox(
             height: 20,
           ),
           Expanded(
               child: Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width,
-                color: Color.fromRGBO(40, 42, 40, 1.0),
+                  padding: EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  color: Color.fromRGBO(40, 42, 40, 1.0),
                   child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("New Release"),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Recomended"),
+                      Expanded(
+                        child: FutureBuilder(
+                          future: viewModel.getTopRatedMoviesresults(),
+                          builder: (context, snapshot) {
+                            // CheckAPIdata(snapshot);
+                            if (snapshot.hasData) {
+                              return CarouselSlider(
+                                items: snapshot.data!.topratedresults!
+                                    .map((result) {
+                                  return TopRatedLayout(result);
+                                }).toList(),
+                                options: CarouselOptions(
+                                  padEnds: false,
+                                  enableInfiniteScroll: false,
+                                  disableCenter: true,
+                                  viewportFraction: .4,
+                                  height: MediaQuery.of(context).size.width,
+                                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                  enlargeCenterPage: false,
 
-
-            ],
-          ))),
+                                ),
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ))),
           SizedBox(
-            height: 25,
+            height: 15,
           ),
-          Expanded(child: Text("GH")),
         ],
       ),
     );
