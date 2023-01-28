@@ -8,7 +8,7 @@ const String popularEndPoint = '/3/movie/popular';
 
 const String latestEndPoint = '/3/movie/latest';
 const String top_ratedEndPoint = '/3/movie/top_rated';
-
+const String imagesServer ='https://image.tmdb.org/t/p/original';
 Widget CheckAPIdata (AsyncSnapshot snapshot) {
   if(snapshot.connectionState ==ConnectionState.waiting){
     return CircularProgressIndicator();
