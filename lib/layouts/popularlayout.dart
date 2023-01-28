@@ -39,8 +39,8 @@ class PopularLayout extends StatelessWidget {
                   margin: EdgeInsets.only(left: 20, top: 20),
                   child: ImageIcon(
                     AssetImage('assets/images/bookmark.png'),
-                    // color: Color.fromRGBO(247, 181, 57, 1.0),
-                    color: Color.fromRGBO(81, 79, 79, 1.0),
+                    color: Color.fromRGBO(247, 181, 57, 1.0),
+                    // color: Color.fromRGBO(81, 79, 79, 1.0),
                   )),
               Container(
                   margin: EdgeInsets.only(left: 24, top: 22),
