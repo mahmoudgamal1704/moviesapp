@@ -35,7 +35,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.green,
+      // color: Colors.green,
       child: Column(
         children: [
           SizedBox(height: 50,),
@@ -46,10 +46,15 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                 // CheckAPIdata(snapshot);
                 if (snapshot.hasData){
                   return CarouselSlider(
+
                     items: snapshot.data!.results!.map((result) {
                       return PopularLayout(result);
                     }).toList(),
-                    options:  CarouselOptions(),
+                    options:  CarouselOptions(
+                        viewportFraction: 1,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                          enableInfiniteScroll: false,
+                       height: MediaQuery.of(context).size.width),
 
                   );
                 }else {
@@ -63,8 +68,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
           Expanded(child: Text("GH")),
           SizedBox(height: 50,),
           Expanded(child: Text("GH")),
-          SizedBox(height: 50,),
-          Expanded(child: Text("GH")),
+
         ],
       ),
     );
