@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/TopRatedResponse.dart';
 
+import '../shared/items/constants.dart';
+
 class TopRatedLayout extends StatelessWidget {
   // const TopRatedLayout({Key? key}) : super(key: key);
-topratedResults result ;
+  Results result ;
 
 TopRatedLayout(this.result);
 
@@ -11,15 +13,19 @@ TopRatedLayout(this.result);
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-
       child: Column(
-        
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             // flex: 3,
-            child: Container(
-              color: Colors.red,
+            child: Stack(
+              children: [
+                Container(
+                  // color: Colors.red,
+                  child: Image.network('${imagesServer}${result.posterPath}',fit: BoxFit.cover,),
+                ),
+                WatchListMark(),
+              ],
             ),
           ),
           Row(

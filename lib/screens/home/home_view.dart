@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/base.dart';
+import 'package:movieapp/layouts/newreleaselayout.dart';
 import 'package:movieapp/layouts/popularlayout.dart';
 import 'package:movieapp/layouts/topratedlayout.dart';
 import 'package:movieapp/models/PopularResponse.dart';
@@ -42,28 +43,10 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
             height: 50,
           ),
           Expanded(
-            child: FutureBuilder(
-              future: viewModel.getpopularMoviesresults(),
-              builder: (context, snapshot) {
-                // CheckAPIdata(snapshot);
-                if (snapshot.hasData) {
-                  return CarouselSlider(
-                    items: snapshot.data!.results!.map((result) {
-                      return PopularLayout(result);
-                    }).toList(),
-                    options: CarouselOptions(
-                        viewportFraction: 1,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        enableInfiniteScroll: false,
-                        height: MediaQuery.of(context).size.width),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(color: Colors.white),
-                  );
-                }
-              },
-            ),
+            child: FutureBuilderAPI(viewModel.getNowPlayingMoviesresults, viewModel,CarouselOptions( viewportFraction: 1,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                enableInfiniteScroll: false,
+                height: MediaQuery.of(context).size.width),"now"),
           ),
           SizedBox(
             height: 10,
@@ -77,6 +60,17 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("New Release"),
+                      Expanded(
+                        child: FutureBuilderAPI(viewModel.getpopularMoviesresults, viewModel,CarouselOptions(
+                          padEnds: false,
+                          enableInfiniteScroll: false,
+                          disableCenter: true,
+                          viewportFraction: .4,
+                          height: MediaQuery.of(context).size.width,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          enlargeCenterPage: false,
+                        ),"new"),
+                      ),
                     ],
                   ))),
           SizedBox(
@@ -92,34 +86,15 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                     children: [
                       Text("Recomended"),
                       Expanded(
-                        child: FutureBuilder(
-                          future: viewModel.getTopRatedMoviesresults(),
-                          builder: (context, snapshot) {
-                            // CheckAPIdata(snapshot);
-                            if (snapshot.hasData) {
-                              return CarouselSlider(
-                                items: snapshot.data!.topratedresults!
-                                    .map((result) {
-                                  return TopRatedLayout(result);
-                                }).toList(),
-                                options: CarouselOptions(
-                                  padEnds: false,
-                                  enableInfiniteScroll: false,
-                                  disableCenter: true,
-                                  viewportFraction: .4,
-                                  height: MediaQuery.of(context).size.width,
-                                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                                  enlargeCenterPage: false,
-
-                                ),
-                              );
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          },
-                        ),
+                        child: FutureBuilderAPI(viewModel.getTopRatedMoviesresults, viewModel,CarouselOptions(
+                          padEnds: false,
+                          enableInfiniteScroll: false,
+                          disableCenter: true,
+                          viewportFraction: .4,
+                          height: MediaQuery.of(context).size.width,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          enlargeCenterPage: false,
+                        ),"top"),
                       ),
                     ],
                   ))),
