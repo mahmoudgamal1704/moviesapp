@@ -18,24 +18,24 @@ class HomeViewModel extends BaseViewModel<HomeNavigator> {
   List<Widget>? topwidgets;
   Future<PopularResponse> getpopularMoviesresults() async {
     PopularResponse popularResponse = (await ApiManager.getpopularMovies())!;
-    newwidgets = popularResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie(getmovieDetails(e.id.toString()));}, child: NewReleaseLayout(e))).toList();
+    newwidgets = popularResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie((e.id.toString()));}, child: NewReleaseLayout(e))).toList();
     return popularResponse;
   }
   Future<TopRatedResponse> getTopRatedMoviesresults() async {
     TopRatedResponse topRatedResponse = (await ApiManager.getTopRatedMovies())!;
-    topwidgets = topRatedResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie(getmovieDetails(e.id.toString()));} ,child: TopRatedLayout(e))).toList();
+    topwidgets = topRatedResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie((e.id.toString()));} ,child: TopRatedLayout(e))).toList();
     return topRatedResponse;
   }
-  Future<MovieDetails> getmovieDetails(String id) async {
-    MovieDetails movieDetails = (await ApiManager.getMovieDetals(id))!;
-    // topwidgets = topRatedResponse.results?.map((e) => TopRatedLayout(e)).toList();
-    return movieDetails;
-  }
+  // Future<MovieDetails> getmovieDetails(String id) async {
+  //   MovieDetails movieDetails = (await ApiManager.getMovieDetals(id))!;
+  //   // topwidgets = topRatedResponse.results?.map((e) => TopRatedLayout(e)).toList();
+  //   return movieDetails;
+  // }
 
   Future<NowPlayingResponse> getNowPlayingMoviesresults() async {
     NowPlayingResponse nowPlayingResponse =
         (await ApiManager.getNowPlayingMovies())!;
-    popwidgets = nowPlayingResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie(getmovieDetails(e.id.toString()));},child: PopularLayout(e))).toList();
+    popwidgets = nowPlayingResponse.results?.map((e) => InkWell(onTap: (){ navigator!.goToMovie((e.id.toString()));},child: PopularLayout(e))).toList();
     return nowPlayingResponse;
   }
 
