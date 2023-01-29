@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/base.dart';
+import 'package:movieapp/layouts/movielayout.dart';
 import 'package:movieapp/layouts/newreleaselayout.dart';
 import 'package:movieapp/layouts/popularlayout.dart';
 import 'package:movieapp/layouts/topratedlayout.dart';
@@ -110,5 +111,10 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
   HomeViewModel initViewModel() {
     // TODO: implement initViewModel
     return HomeViewModel();
+  }
+
+  @override
+  goToMovie(movie) {
+    Navigator.pushNamed(context, MovieLayout.routeName,arguments: movie);
   }
 }

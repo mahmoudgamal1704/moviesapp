@@ -1,16 +1,14 @@
-
-import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:movieapp/models/NowPlayingResponse.dart';
-import 'package:movieapp/models/PopularResponse.dart';
 import 'package:movieapp/screens/home/home_viewmodel.dart';
+
 
 const String BASE = 'api.themoviedb.org';
 const String APIKEY = '070a8fbba8968dea6e4a9aca8a217ef0';
-
+const String latestEndPoint = '/3/movie/latest';
+const String top_ratedEndPoint = '/3/movie/top_rated';
+const String movieDetailsEndPoint = '/3/movie/';
+const String imagesServer ='https://image.tmdb.org/t/p/original';
 const String popularEndPoint = '/3/movie/popular';
 const String NowPlayingEndPoint = '/3/movie/now_playing';
 
@@ -52,9 +50,7 @@ return Stack(
   ],
 );
 }
-const String latestEndPoint = '/3/movie/latest';
-const String top_ratedEndPoint = '/3/movie/top_rated';
-const String imagesServer ='https://image.tmdb.org/t/p/original';
+
 Widget CheckAPIdata (AsyncSnapshot snapshot) {
   if(snapshot.connectionState ==ConnectionState.waiting){
     return CircularProgressIndicator();
