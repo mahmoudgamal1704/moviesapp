@@ -1,4 +1,5 @@
 import 'package:movieapp/base.dart';
+import 'package:movieapp/models/MovieLikeResponse.dart';
 import 'package:movieapp/screens/moviedetals/moviedetals_nav.dart';
 
 import '../../models/MovieDetails.dart';
@@ -10,5 +11,8 @@ class MovieDetailsViewModel extends BaseViewModel<MovieDetalsNav>{
     MovieDetails movieDetails = (await ApiManager.getMovieDetals(id))!;
     return movieDetails;
   }
-
+  Future<MovieLikeResponse> getSimilarMovies(String id) async {
+    MovieLikeResponse movieLikeResponse = (await ApiManager.getlikeMovies(id))!;
+    return movieLikeResponse;
+  }
 }

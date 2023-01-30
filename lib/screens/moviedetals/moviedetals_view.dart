@@ -1,5 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/base.dart';
+import 'package:movieapp/layouts/movielayout.dart';
+import 'package:movieapp/layouts/similarlayout.dart';
+import 'package:movieapp/layouts/topratedlayout.dart';
 import 'package:movieapp/models/MovieDetails.dart';
 import 'package:movieapp/screens/moviedetals/moviedetals_nav.dart';
 import 'package:movieapp/shared/items/constants.dart';
@@ -92,15 +96,13 @@ class _MovieDetalsScreenState
                                         );
                                       },),
                                   ),
-                                  Text('${snapshot.data!.overview}'),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.star,color: Color.fromRGBO(255, 187, 59, 1.0),),
-                                        SizedBox(width: 10,),
-                                        Text("${snapshot.data!.voteAverage}")
-                                      ],
-                                    ),
+                                  Expanded(child: Text('${snapshot.data!.overview}')),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.star,color: Color.fromRGBO(255, 187, 59, 1.0),),
+                                      SizedBox(width: 10,),
+                                      Text("${snapshot.data!.voteAverage}")
+                                    ],
                                   ),
                                 ],
                               ),
@@ -110,7 +112,43 @@ class _MovieDetalsScreenState
 
                       ),
                       SizedBox(height: 20,),
-                      Expanded(child: Container(color: Colors.red,))
+                      Expanded(child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                        Text('More Like This'),
+                          Expanded(
+                            child: FutureBuilder (
+                              future:  viewModel.getSimilarMovies(widget.id??""),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return CarouselSlider(
+                                    items: snapshot.data!.results!.map((e) {
+                                      return InkWell(
+                                          onTap: () {
+                                            viewModel.navigator!.goToMovieDetails(e);
+                                          },
+                                          child: TopRatedLayout(e));
+                                    }).toList(),
+                                    options: CarouselOptions(
+                                      padEnds: false,
+                                      enableInfiniteScroll: false,
+                                      disableCenter: true,
+                                      viewportFraction: .4,
+                                      height: MediaQuery.of(context).size.width,
+                                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                      enlargeCenterPage: false,
+                                    ),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(color: Colors.white),
+                                  );
+                                }
+                              },
+                            ),
+                          )
+                      ],))
                     ],
                   );
                 } else {
@@ -136,5 +174,11 @@ class _MovieDetalsScreenState
   @override
   MovieDetailsViewModel initViewModel() {
     return MovieDetailsViewModel();
+  }
+
+  @override
+  goToMovieDetails(movie) {
+    // TODO: implement goToMovieDetails
+    Navigator.pushReplacementNamed(context, MovieLayout.routeName ,arguments: movie);
   }
 }
