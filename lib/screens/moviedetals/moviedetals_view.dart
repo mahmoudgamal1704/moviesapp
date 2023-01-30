@@ -7,6 +7,10 @@ import 'moviedetals_viewmodel.dart';
 
 class MovieDetalsScreen extends StatefulWidget {
   // const MovieDetalsScreen({Key? key}) : super(key: key);
+  String? id;
+
+
+  MovieDetalsScreen(this.id);
 
   @override
   State<MovieDetalsScreen> createState() => _MovieDetalsScreenState();
@@ -17,25 +21,8 @@ class _MovieDetalsScreenState
     implements MovieDetalsNav {
   @override
   Widget build(BuildContext context) {
-    var movieid = ModalRoute.of(context)?.settings.arguments as String;
-    return FutureBuilder(
-      future: viewModel.getmovieDetails(movieid),
-      builder: (context, snapshot) {
-        if(snapshot.hasData){
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                snapshot.data!.title?? "",
-                style: TextStyle(color: Colors.white),
-              ),
-              centerTitle: true,
-            ),
-          );
-        }else{
-          return CircularProgressIndicator();
-        }
+    return Container(
 
-      },
     );
   }
 

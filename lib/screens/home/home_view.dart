@@ -114,7 +114,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
   }
 
   @override
-  goToMovie(id) {
-    Navigator.pushNamed(context, MovieLayout.routeName,arguments: id);
+  goToMovie(movie) {
+    Navigator.pushNamed(context, MovieLayout.routeName,arguments: movie);
   }
 }

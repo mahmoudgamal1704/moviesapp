@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/shared/items/constants.dart';
 import '../models/NowPlayingResponse.dart';
+import '../models/basemodel.dart';
 
 class PopularLayout extends StatelessWidget {
   Results movie;

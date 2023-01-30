@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/TopRatedResponse.dart';
 
+import '../models/basemodel.dart';
 import '../shared/items/constants.dart';
 
 class TopRatedLayout extends StatelessWidget {
