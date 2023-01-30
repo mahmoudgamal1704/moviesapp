@@ -44,7 +44,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
             height: 50,
           ),
           Expanded(
-            child: FutureBuilderAPI(viewModel.getNowPlayingMoviesresults, viewModel,CarouselOptions( viewportFraction: 1,
+            child: FutureBuilderAPIwithSlider(viewModel.getNowPlayingMoviesresults, viewModel,CarouselOptions( viewportFraction: 1,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 enableInfiniteScroll: false,
                 height: MediaQuery.of(context).size.width),"now"),
@@ -62,7 +62,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                     children: [
                       Text("New Release"),
                       Expanded(
-                        child: FutureBuilderAPI(viewModel.getpopularMoviesresults, viewModel,CarouselOptions(
+                        child: FutureBuilderAPIwithSlider(viewModel.getpopularMoviesresults, viewModel,CarouselOptions(
                           padEnds: false,
                           enableInfiniteScroll: false,
                           disableCenter: true,
@@ -87,7 +87,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                     children: [
                       Text("Recomended"),
                       Expanded(
-                        child: FutureBuilderAPI(viewModel.getTopRatedMoviesresults, viewModel,CarouselOptions(
+                        child: FutureBuilderAPIwithSlider(viewModel.getTopRatedMoviesresults, viewModel,CarouselOptions(
                           padEnds: false,
                           enableInfiniteScroll: false,
                           disableCenter: true,

@@ -14,7 +14,7 @@ const String NowPlayingEndPoint = '/3/movie/now_playing';
 
 
 
-Widget FutureBuilderAPI (Function  getdata ,HomeViewModel datalist,CarouselOptions options,String layoutType) {
+Widget FutureBuilderAPIwithSlider (Function  getdata ,HomeViewModel datalist,CarouselOptions options,String layoutType) {
   return FutureBuilder (
     future:  getdata(),
     builder: (context, snapshot) {
