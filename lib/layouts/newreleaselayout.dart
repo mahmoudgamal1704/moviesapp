@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/PopularResponse.dart';
 
+import '../models/basemodel.dart';
 import '../shared/items/constants.dart';
 
 class NewReleaseLayout extends StatelessWidget {
