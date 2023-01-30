@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/layouts/mainlayout.dart';
+import 'package:movieapp/layouts/movielayout.dart';
 
 import 'mytheme.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: MainLayout.routeName,
       routes: {
         MainLayout.routeName: (context) => MainLayout(),
+        MovieLayout.routeName: (context) => MovieLayout(),
       },
     );
   }
