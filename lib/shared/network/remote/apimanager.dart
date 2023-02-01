@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:movieapp/models/MovieLikeResponse.dart';
 import 'package:movieapp/models/NowPlayingResponse.dart';
+import 'package:movieapp/models/SearchResponse.dart';
 import 'package:movieapp/models/TopRatedResponse.dart';
 
 import '../../../models/MovieDetails.dart';
@@ -64,6 +65,15 @@ class ApiManager {
       return null;
     }
   }
-
+  static  Future<SearchResponse?> getSearchMovies(String query) async {
+    Uri uri = Uri.https(BASE,SearchEndPoint,{"api_key" : APIKEY,"language":"en-US","page" : "1","query":query});
+    Response response = await http.get(uri);
+    if (response.statusCode ==200){
+      var json = jsonDecode(response.body);
+      return SearchResponse.fromJson(json);
+    }else {
+      return null;
+    }
+  }
 
 }
