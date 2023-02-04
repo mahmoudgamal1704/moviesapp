@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/base.dart';
 import 'package:movieapp/layouts/categlayout.dart';
+import 'package:movieapp/models/CategResponse.dart';
 import 'package:movieapp/screens/movies/movies_nav.dart';
 import 'package:movieapp/screens/movies/movies_viewmodel.dart';
+
+import '../filteredmovies/filteredmovied_screen.dart';
 
 class MoviesScreen extends StatefulWidget {
   @override
@@ -50,7 +53,9 @@ class _MoviesScreenState extends BaseView<MoviesScreen, MoviesViewModel>
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (context, index) {
-                      return CategLayout(snapshot.data!.genres![index]);
+                      return InkWell(
+                          onTap: () => viewModel.navigator!.goToFilteredMovies(snapshot.data!.genres![index]),
+                          child: CategLayout(snapshot.data!.genres![index]));
                     },
                   ),
                 );
@@ -66,5 +71,12 @@ class _MoviesScreenState extends BaseView<MoviesScreen, MoviesViewModel>
   @override
   MoviesViewModel initViewModel() {
     return MoviesViewModel();
+  }
+
+  @override
+  goToFilteredMovies( categ) {
+    // TODO: implement goToFilteredMovies
+    Navigator.pushNamed(context, FilteredMoviesScreen.routeName,arguments: categ);
+    ;
   }
 }
