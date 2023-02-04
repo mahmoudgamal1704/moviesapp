@@ -13,6 +13,7 @@ const String popularEndPoint = '/3/movie/popular';
 const String NowPlayingEndPoint = '/3/movie/now_playing';
 const String SearchEndPoint = '/3/search/movie';
 const String CategEndPoint = '/3/genre/movie/list';
+const String FilteredmoviesEndPoint = '/3/discover/movie';
 
 
 
