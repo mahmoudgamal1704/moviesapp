@@ -42,7 +42,8 @@ class _MovieDetalsScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                          child: Image.network(
+                          child: snapshot.data!.backdropPath == null ?Image.asset(
+                              'assets/images/nomovieicon.png') :Image.network(
                         '${imagesServer + snapshot.data!.backdropPath!}',
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fill,
@@ -62,7 +63,7 @@ class _MovieDetalsScreenState
                             Stack(
                               children: [
                                 Image.network(
-                                    '${imagesServer + snapshot.data!.posterPath!}',width: 120,),
+                                    '${imagesServer! + snapshot.data!.posterPath!}',width: 120,),
                                 WatchListMark()
                               ],
                             ),
