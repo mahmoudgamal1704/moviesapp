@@ -12,9 +12,10 @@ class CategLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
           child: Stack(
+            alignment: Alignment.center,
             children: [
-              Image.asset('assets/images/${categ.name}.png'),
-              Text('${categ.name}')
+              Image.asset('assets/images/${categ.name}.png',fit: BoxFit.cover,),
+              Text('${categ.name}',style: TextStyle(fontSize: 25,color: Colors.black),)
             ],
           ),
     );

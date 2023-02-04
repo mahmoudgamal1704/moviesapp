@@ -20,7 +20,8 @@ class _MoviesScreenState extends BaseView<MoviesScreen, MoviesViewModel>
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width/3;
+    double screenWidth = MediaQuery.of(context).size.width/2;
+    double screenhight = (MediaQuery.of(context).size.height-24)/2;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
 
@@ -43,9 +44,9 @@ class _MoviesScreenState extends BaseView<MoviesScreen, MoviesViewModel>
                     itemCount: snapshot.data!.genres?.length,
                     gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: screenWidth / 180.0,
+                      childAspectRatio: screenWidth/screenhight,
                       // mainAxisExtent: 30,
-                      // crossAxisSpacing: 5,
+                      crossAxisSpacing: 5,
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (context, index) {
