@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/layouts/mainlayout.dart';
 import 'package:movieapp/layouts/movielayout.dart';
+import 'package:movieapp/screens/filteredmovies/filteredmovied_screen.dart';
 
 import 'mytheme.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         MainLayout.routeName: (context) => MainLayout(),
         MovieLayout.routeName: (context) => MovieLayout(),
+        FilteredMoviesScreen.routeName: (context) => FilteredMoviesScreen(),
       },
     );
   }
