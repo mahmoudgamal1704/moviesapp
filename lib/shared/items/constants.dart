@@ -11,6 +11,7 @@ const String movieDetailsEndPoint = '/3/movie/';
 const String imagesServer ='https://image.tmdb.org/t/p/original';
 const String popularEndPoint = '/3/movie/popular';
 const String NowPlayingEndPoint = '/3/movie/now_playing';
+const String SearchEndPoint = '/3//search/movie';
 
 
 
