@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:movieapp/models/CategResponse.dart';
 import 'package:movieapp/models/MovieLikeResponse.dart';
 import 'package:movieapp/models/NowPlayingResponse.dart';
 import 'package:movieapp/models/SearchResponse.dart';
@@ -71,6 +72,17 @@ class ApiManager {
     if (response.statusCode ==200){
       var json = jsonDecode(response.body);
       return SearchResponse.fromJson(json);
+    }else {
+      return null;
+    }
+  }
+
+  static  Future<CategResponse?> getCategMovies() async {
+    Uri uri = Uri.https(BASE,CategEndPoint,{"api_key" : APIKEY,"language":"en-US","page" : "1"});
+    Response response = await http.get(uri);
+    if (response.statusCode ==200){
+      var json = jsonDecode(response.body);
+      return CategResponse.fromJson(json);
     }else {
       return null;
     }
