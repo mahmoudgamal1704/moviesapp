@@ -1,5 +1,6 @@
 class Results {
   Results({
+
     this.adult,
     this.backdropPath,
     this.genreIds,
@@ -35,6 +36,7 @@ class Results {
   String? backdropPath;
   List<num>? genreIds;
   num? id;
+
   String? originalLanguage;
   String? originalTitle;
   String? overview;

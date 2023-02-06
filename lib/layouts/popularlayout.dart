@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/shared/items/constants.dart';
 import '../models/NowPlayingResponse.dart';
 import '../models/basemodel.dart';
+import '../screens/home/home_viewmodel.dart';
 
-class PopularLayout extends StatelessWidget {
+class PopularLayout extends StatefulWidget {
   Results movie;
+  HomeViewModel viewmodel;
 
-  PopularLayout(this.movie);
+  PopularLayout(this.movie,this.viewmodel);
 
+  @override
+  State<PopularLayout> createState() => _PopularLayoutState();
+}
+
+class _PopularLayoutState extends State<PopularLayout> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,16 +30,16 @@ class PopularLayout extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Image.network(
-                      '${imagesServer}${movie.backdropPath}',
+                      '${imagesServer}${widget.movie.backdropPath}',
                       fit: BoxFit.fitWidth,
                     ),
                   )),
               Container(
                   margin: EdgeInsets.only(left: 150, bottom: 5),
-                  child: Text('${movie.title ?? ""}')),
+                  child: Text('${widget.movie.title ?? ""}')),
               Container(
                   margin: EdgeInsets.only(left: 150),
-                  child: Text('${movie.releaseDate?.substring(0, 4) ?? ""}')),
+                  child: Text('${widget.movie.releaseDate?.substring(0, 4) ?? ""}')),
             ],
           ),
           Stack(
@@ -42,11 +49,19 @@ class PopularLayout extends StatelessWidget {
                 height: 150,
                 width: MediaQuery.of(context).size.width * .25,
                 child: Image.network(
-                  '${imagesServer}${movie.posterPath}',
+                  '${imagesServer}${widget.movie.posterPath}',
                   fit: BoxFit.fill,
                 ),
               ),
-              WatchListMark(leftmargin: 20, topmargin: 30)
+              InkWell(
+                  onTap:() {
+                    widget.viewmodel.navigator!
+                        .addRemoveWatchList(widget.movie.id!.toInt());
+                    setState(() {
+
+                    });
+                  },
+                  child: WatchListMark(leftmargin: 20, topmargin: 30,movieid: widget.movie.id!.toInt()))
             ],
           ),
         ],
