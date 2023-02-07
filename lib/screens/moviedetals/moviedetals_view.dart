@@ -42,20 +42,25 @@ class _MovieDetalsScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                          child: snapshot.data!.backdropPath == null ?Image.asset(
-                              'assets/images/nomovieicon.png') :Image.network(
-                        '${imagesServer + snapshot.data!.backdropPath!}',
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.fill,
-                      )),
-                      SizedBox(height: 15,),
+                          child: snapshot.data!.backdropPath == null
+                              ? Image.asset('assets/images/nomovieicon.png')
+                              : Image.network(
+                                  '${imagesServer + snapshot.data!.backdropPath!}',
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.fill,
+                                )),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Text('${snapshot.data!.title!}'),
-                      SizedBox(height: 15,),
-
+                      SizedBox(
+                        height: 15,
+                      ),
                       Text(
                           '${snapshot.data!.releaseDate!.substring(0, 4)}  ${movietime}'),
-                      SizedBox(height: 15,),
-
+                      SizedBox(
+                        height: 15,
+                      ),
                       Expanded(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,26 +68,38 @@ class _MovieDetalsScreenState
                             Stack(
                               children: [
                                 Image.network(
-                                    '${imagesServer! + snapshot.data!.posterPath!}',width: 120,),
-                                WatchListMark()
+                                  '${imagesServer + snapshot.data!.posterPath!}',
+                                  width: 120,
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      viewModel.navigator!.addRemoveWatchList(
+                                          snapshot.data!.id!.toString());
+                                      setState(() {});
+                                    },
+                                    child: WatchListMark(
+                                        movieid: snapshot.data!.id!.toString()))
                               ],
                             ),
-                            SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Expanded(
                               child: Column(
                                 children: [
                                   Container(
-                                    margin:EdgeInsets.only(bottom: 10),
+                                    margin: EdgeInsets.only(bottom: 10),
                                     // height: 50,
                                     // color:Colors.red,
                                     child: GridView.builder(
                                       // clipBehavior: Clip.antiAlias,
                                       shrinkWrap: true,
                                       itemCount: snapshot.data!.genres!.length,
-                                      gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3,
-                                        childAspectRatio: 16/9,
-                                        mainAxisExtent:30,
+                                        childAspectRatio: 16 / 9,
+                                        mainAxisExtent: 30,
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 10,
                                       ),
@@ -90,18 +107,29 @@ class _MovieDetalsScreenState
                                         return Container(
                                           padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.white),
-                                              borderRadius: BorderRadius.circular(10)
-                                          ),
-                                          child: Text('${snapshot.data!.genres![index].name}'),
+                                              border: Border.all(
+                                                  color: Colors.white),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Text(
+                                              '${snapshot.data!.genres![index].name}'),
                                         );
-                                      },),
+                                      },
+                                    ),
                                   ),
-                                  Expanded(child: Text('${snapshot.data!.overview}')),
+                                  Expanded(
+                                      child:
+                                          Text('${snapshot.data!.overview}')),
                                   Row(
                                     children: [
-                                      Icon(Icons.star,color: Color.fromRGBO(255, 187, 59, 1.0),),
-                                      SizedBox(width: 10,),
+                                      Icon(
+                                        Icons.star,
+                                        color:
+                                            Color.fromRGBO(255, 187, 59, 1.0),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Text("${snapshot.data!.voteAverage}")
                                     ],
                                   ),
@@ -110,26 +138,29 @@ class _MovieDetalsScreenState
                             ),
                           ],
                         ),
-
                       ),
-                      SizedBox(height: 20,),
-                      Expanded(child: Column(
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                          child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
-                        Text('More Like This'),
+                          Text('More Like This'),
                           Expanded(
-                            child: FutureBuilder (
-                              future:  viewModel.getSimilarMovies(widget.id??""),
+                            child: FutureBuilder(
+                              future:
+                                  viewModel.getSimilarMovies(widget.id ?? ""),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return CarouselSlider(
                                     items: snapshot.data!.results!.map((e) {
                                       return InkWell(
                                           onTap: () {
-                                            viewModel.navigator!.goToMovieDetails(e);
+                                            viewModel.navigator!
+                                                .goToMovieDetails(e);
                                           },
-                                          child: TopRatedLayout(e));
+                                          child: SimilarLayout(e, viewModel));
                                     }).toList(),
                                     options: CarouselOptions(
                                       padEnds: false,
@@ -137,19 +168,22 @@ class _MovieDetalsScreenState
                                       disableCenter: true,
                                       viewportFraction: .4,
                                       height: MediaQuery.of(context).size.width,
-                                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                      enlargeStrategy:
+                                          CenterPageEnlargeStrategy.height,
                                       enlargeCenterPage: false,
                                     ),
                                   );
                                 } else {
                                   return Center(
-                                    child: CircularProgressIndicator(color: Colors.white),
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white),
                                   );
                                 }
                               },
                             ),
                           )
-                      ],))
+                        ],
+                      ))
                     ],
                   );
                 } else {
@@ -180,6 +214,7 @@ class _MovieDetalsScreenState
   @override
   goToMovieDetails(movie) {
     // TODO: implement goToMovieDetails
-    Navigator.pushReplacementNamed(context, MovieLayout.routeName ,arguments: movie);
+    Navigator.pushReplacementNamed(context, MovieLayout.routeName,
+        arguments: movie);
   }
 }

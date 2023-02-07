@@ -1,29 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/shared/items/constants.dart';
 
 abstract class BaseNavigator {
+  void showLoading({String message});
 
-  void showLoading ({String message});
-  void hideDialog ();
-  void showMessage (message);
+  void hideDialog();
+
+  void showMessage(message);
+
+  void addRemoveWatchList(String movieid);
 }
 
 class BaseViewModel<NAV extends BaseNavigator> extends ChangeNotifier {
-  NAV? navigator = null ;
+  NAV? navigator = null;
 }
 
-abstract class BaseView<T extends StatefulWidget,VM extends BaseViewModel> extends State<T> implements BaseNavigator{
+abstract class BaseView<T extends StatefulWidget, VM extends BaseViewModel>
+    extends State<T> implements BaseNavigator {
+  late VM viewModel;
 
-  late VM viewModel ;
+  VM initViewModel();
 
-  VM initViewModel ();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    viewModel=initViewModel();
+    viewModel = initViewModel();
   }
-
 
   @override
   void hideDialog() {
@@ -47,10 +51,30 @@ abstract class BaseView<T extends StatefulWidget,VM extends BaseViewModel> exten
   }
 
   @override
-  void showMessage(message) {
-    showDialog(context: context, builder: (context) {
-      return AlertDialog(content: Text(message),);
-    },);
+  void addRemoveWatchList(String movieid) {
+    getWatchListIds();
+    // TODO: implement addRemoveWatchList
+    if (checkWatchList(int.parse(movieid)) >= 0) {
+      ids.remove(movieid);
+    } else {
+      ids.insert(ids.length,movieid);
+    }
+    print('${ids}   ghghj');
+    prefs?.setStringList('favmovies', ids);
 
+    print(prefs?.getStringList("favmovies"));
+    print(ids);
+  }
+
+  @override
+  void showMessage(message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(message),
+        );
+      },
+    );
   }
 }
