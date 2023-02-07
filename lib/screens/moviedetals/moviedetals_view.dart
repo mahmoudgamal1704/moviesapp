@@ -74,11 +74,11 @@ class _MovieDetalsScreenState
                                 InkWell(
                                     onTap: () {
                                       viewModel.navigator!.addRemoveWatchList(
-                                          snapshot.data!.id!.toInt());
+                                          snapshot.data!.id!.toString());
                                       setState(() {});
                                     },
                                     child: WatchListMark(
-                                        movieid: snapshot.data!.id!.toInt()))
+                                        movieid: snapshot.data!.id!.toString()))
                               ],
                             ),
                             SizedBox(

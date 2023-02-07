@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/screens/home/home_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 const String BASE = 'api.themoviedb.org';
@@ -14,12 +15,23 @@ const String NowPlayingEndPoint = '/3/movie/now_playing';
 const String SearchEndPoint = '/3/search/movie';
 const String CategEndPoint = '/3/genre/movie/list';
 const String FilteredmoviesEndPoint = '/3/discover/movie';
+// Obtain shared preferences.
 
-List<int> ids=[315162,278];
-checkWatchList(movieid){
-if (LinearSearch(ids, movieid)){
+SharedPreferences? prefs ;
+Future<void> initSharedPreferences () async {
+  prefs = await  SharedPreferences.getInstance();
+}
+late List<String> ids;
+void getWatchListIds(){
+  print(prefs?.getStringList("favmovies"));
+  ids = prefs?.getStringList('favmovies') ?? [];
+}
+
+checkWatchList (int movieid){
+getWatchListIds();
+if (LinearSearch(ids.map((e) => int.parse(e)).toList(), movieid)){
   print('done');
-  return ids.indexOf(movieid);
+  return ids.indexOf(movieid.toString());
 }else {
   return -1;
 }
@@ -67,7 +79,7 @@ Widget FutureBuilderAPIwithSlider (Function  getdata ,HomeViewModel datalist,Car
     },
   );
 }
-Widget WatchListMark ( {double topmargin = 0, double leftmargin = 0,required int movieid}){
+Widget WatchListMark ( {double topmargin = 0, double leftmargin = 0,required String movieid}){
 return Stack(
   children: [
     Container(
@@ -75,13 +87,13 @@ return Stack(
         child: ImageIcon(
           AssetImage('assets/images/bookmark.png'),
           // color: Color.fromRGBO(247, 181, 57, 1.0),
-          color:checkWatchList(movieid) >= 0 ? Color.fromRGBO(247, 181, 57, 1.0) :Color.fromRGBO(
+          color:checkWatchList(int.parse(movieid)) >= 0 ? Color.fromRGBO(247, 181, 57, 1.0) :Color.fromRGBO(
               81, 79, 79, 1.0) ,
         )),
     Container(
         margin: EdgeInsets.only(left: leftmargin+4,top: topmargin),
         child: Icon(
-          checkWatchList(movieid) >= 0 ? Icons.check :Icons.add,
+          checkWatchList(int.parse(movieid)) >= 0 ? Icons.check :Icons.add,
           size: 15,
         ))
   ],

@@ -9,7 +9,7 @@ abstract class BaseNavigator {
 
   void showMessage(message);
 
-  void addRemoveWatchList(int movieid);
+  void addRemoveWatchList(String movieid);
 }
 
 class BaseViewModel<NAV extends BaseNavigator> extends ChangeNotifier {
@@ -51,17 +51,18 @@ abstract class BaseView<T extends StatefulWidget, VM extends BaseViewModel>
   }
 
   @override
-  void addRemoveWatchList(int movieid) {
+  void addRemoveWatchList(String movieid) {
+    getWatchListIds();
     // TODO: implement addRemoveWatchList
-    print('${checkWatchList(movieid)}   fref');
-    print('${movieid}   ghghgh');
-    if (checkWatchList(movieid) >= 0) {
+    if (checkWatchList(int.parse(movieid)) >= 0) {
       ids.remove(movieid);
-      print('Removed');
     } else {
       ids.insert(ids.length,movieid);
-      print('Added');
     }
+    print('${ids}   ghghj');
+    prefs?.setStringList('favmovies', ids);
+
+    print(prefs?.getStringList("favmovies"));
     print(ids);
   }
 

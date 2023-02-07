@@ -12,6 +12,7 @@ class WatchScreen extends StatefulWidget {
 
 class _WatchScreenState extends BaseView<WatchScreen, WatchViewModel>
     implements WatchNavigator {
+
   @override
   void initState() {
     // TODO: implement initState
@@ -56,11 +57,11 @@ class _WatchScreenState extends BaseView<WatchScreen, WatchViewModel>
                                 InkWell(
                                     onTap: () {
                                       viewModel.navigator!.addRemoveWatchList(
-                                          snapshot.data![index].id!.toInt());
+                                          snapshot.data![index].id.toString());
                                       setState(() {});
                                     },
                                     child: WatchListMark(
-                                        movieid: snapshot.data![index].id!.toInt()))
+                                        movieid: snapshot.data![index].id.toString()))
                               ],
                             )));
                   },

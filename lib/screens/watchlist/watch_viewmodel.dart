@@ -9,10 +9,10 @@ class WatchViewModel extends BaseViewModel<WatchNavigator>{
 
 
 
-Future<List<MovieDetails>> getmovieDetails(List<int> moviesid) async {
+Future<List<MovieDetails>> getmovieDetails(List<String> moviesid) async {
   List<MovieDetails> favMovies =[];
   for(int i = 0 ; i< moviesid.length ; i++ ){
-    MovieDetails movieDetails = (await ApiManager.getMovieDetals(moviesid[i].toString()))!;
+    MovieDetails movieDetails = (await ApiManager.getMovieDetals(moviesid[i]))!;
     favMovies.insert(favMovies.length, movieDetails);
   }
   return favMovies;
