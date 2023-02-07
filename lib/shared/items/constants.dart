@@ -15,7 +15,7 @@ const String SearchEndPoint = '/3/search/movie';
 const String CategEndPoint = '/3/genre/movie/list';
 const String FilteredmoviesEndPoint = '/3/discover/movie';
 
-List<int> ids=[315162,5,6,8,5,8,5];
+List<int> ids=[315162,278];
 checkWatchList(movieid){
 if (LinearSearch(ids, movieid)){
   print('done');
