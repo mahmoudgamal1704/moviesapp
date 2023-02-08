@@ -44,11 +44,12 @@ class _MovieDetalsScreenState
                       Expanded(
                           child: snapshot.data!.backdropPath == null
                               ? Image.asset('assets/images/nomovieicon.png')
-                              : Image.network(
-                                  '${imagesServer + snapshot.data!.backdropPath!}',
-                                  width: MediaQuery.of(context).size.width,
-                                  fit: BoxFit.fill,
-                                )),
+                              : CachedImage('${imagesServer + snapshot.data!.backdropPath!}')),
+                          // Image.network(
+                          //         '${imagesServer + snapshot.data!.backdropPath!}',
+                          //         width: MediaQuery.of(context).size.width,
+                          //         fit: BoxFit.fill,
+                          //       )),
                       SizedBox(
                         height: 15,
                       ),

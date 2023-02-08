@@ -29,10 +29,11 @@ class _PopularLayoutState extends State<PopularLayout> {
                   flex: 4,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      '${imagesServer}${widget.movie.backdropPath}',
-                      fit: BoxFit.fitWidth,
-                    ),
+                    child: CachedImage('${imagesServer}${widget.movie.backdropPath}')
+                    // Image.network(
+                    //   '${imagesServer}${widget.movie.backdropPath}',
+                    //   fit: BoxFit.fitWidth,
+                    // ),
                   )),
               Container(
                   margin: EdgeInsets.only(left: 150, bottom: 5),
@@ -48,10 +49,11 @@ class _PopularLayoutState extends State<PopularLayout> {
                 margin: EdgeInsets.only(left: 20, top: 30),
                 height: 150,
                 width: MediaQuery.of(context).size.width * .25,
-                child: Image.network(
-                  '${imagesServer}${widget.movie.posterPath}',
-                  fit: BoxFit.fill,
-                ),
+                child: CachedImage('${imagesServer}${widget.movie.posterPath}')
+                // Image.network(
+                //   '${imagesServer}${widget.movie.posterPath}',
+                //   fit: BoxFit.fill,
+                // ),
               ),
               InkWell(
                   onTap:() {

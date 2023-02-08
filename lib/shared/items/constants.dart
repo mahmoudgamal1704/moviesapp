@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/screens/home/home_viewmodel.dart';
@@ -61,6 +62,15 @@ bool LinearSearch(List<int> arr, int userValue) {
    }
  }
  return false;
+}
+Widget CachedImage (String imageurl){
+  return CachedNetworkImage(
+    imageUrl: imageurl ?? "",
+    fit: BoxFit.fill,
+    height: 180,
+    placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.white,)),
+    errorWidget: (context, url, error) => Icon(Icons.error),
+  );
 }
 Widget FutureBuilderAPIwithSlider (Function  getdata ,HomeViewModel datalist,CarouselOptions options,String layoutType) {
   return FutureBuilder (

@@ -30,10 +30,11 @@ class _SimilarLayoutState extends State<SimilarLayout> {
             // flex: 3,
             child: Stack(
               children: [
-                Image.network(
-                  '${imagesServer}${widget.result.posterPath}',
-                  fit: BoxFit.cover,
-                ),
+                CachedImage('${imagesServer}${widget.result.posterPath}'),
+                // Image.network(
+                //   '${imagesServer}${widget.result.posterPath}',
+                //   fit: BoxFit.cover,
+                // ),
                 InkWell(
                     onTap: () {
                       widget.viewmodel.navigator!

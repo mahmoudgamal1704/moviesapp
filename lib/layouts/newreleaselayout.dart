@@ -28,8 +28,8 @@ class _NewReleaseLayoutState extends State<NewReleaseLayout> {
               Expanded(
                 // flex: 3,
                 child: Container(
-                  color: Colors.red,
-                  child: Image.network('${imagesServer}${widget.result.posterPath}',fit: BoxFit.fill,),
+                  child: CachedImage('${imagesServer}${widget.result.posterPath}')
+                  // Image.network('${imagesServer}${widget.result.posterPath}',fit: BoxFit.fill,),
 
                 ),
               ),

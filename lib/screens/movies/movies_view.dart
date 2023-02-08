@@ -38,7 +38,7 @@ class _MoviesScreenState extends BaseView<MoviesScreen, MoviesViewModel>
             future: viewModel.getCategMoviesList(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting){
-                return CircularProgressIndicator(color: Colors.white,);
+                return Center(child: CircularProgressIndicator(color: Colors.white,));
               }else {
                 return Container(
                   child: GridView.builder(

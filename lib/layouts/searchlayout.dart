@@ -16,10 +16,13 @@ class SearchLayout extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           movie.posterPath != null
-              ? Image.network(imagesServer + movie.posterPath!)
+              ? CachedImage(imagesServer + movie.posterPath!)
+          // Image.network(imagesServer + movie.posterPath!)
               : movie.backdropPath != null
-                  ? Image.network(imagesServer + movie.backdropPath!)
+                  ? CachedImage(imagesServer + movie.backdropPath!)
+          // Image.network(imagesServer + movie.backdropPath!)
                   : Image.asset('assets/images/nomovieicon.png'),
+
           SizedBox(
             width: 10,
           ),
