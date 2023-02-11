@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/PopularResponse.dart';
+import 'package:provider/provider.dart';
 
 import '../models/basemodel.dart';
 import '../screens/home/home_viewmodel.dart';
@@ -18,6 +19,8 @@ NewReleaseLayout(this.result,this.viewmodel);
 class _NewReleaseLayoutState extends State<NewReleaseLayout> {
   @override
   Widget build(BuildContext context) {
+    var newmodel=Provider.of<HomeViewModel>(context);
+    newmodel.navigator=widget.viewmodel.navigator;
     return Stack(
       children: [
         Container(
@@ -38,7 +41,7 @@ class _NewReleaseLayoutState extends State<NewReleaseLayout> {
         ),
         InkWell(
             onTap: () {
-        widget.viewmodel.favmovies(widget.result.id!.toString());
+              newmodel.favmovies(widget.result.id!.toString());
 
         },
             child: WatchListMark(movieid: widget.result.id!.toString()))

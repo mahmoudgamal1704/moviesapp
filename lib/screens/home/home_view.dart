@@ -39,6 +39,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
         ..getTopRatedMoviesresults()
         ..getNowPlayingMoviesresults(),
       builder: (context, child) {
+        print('ag');
         var homemodel = Provider.of<HomeViewModel>(context);
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -59,7 +60,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                         items: homemodel.newmovies
                             .map((movie) => InkWell(
                             onTap: () => viewModel.navigator!.goToMovie(movie),
-                            child: PopularLayout(movie, homemodel)))
+                            child: PopularLayout(movie, viewModel)))
                             .toList(),
                         options: CarouselOptions(
                             viewportFraction: 1,
@@ -90,7 +91,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                                         .map((movie) =>
                                             InkWell(
                                                 onTap: () => viewModel.navigator!.goToMovie(movie),
-                                                child: NewReleaseLayout(movie, homemodel)))
+                                                child: NewReleaseLayout(movie, viewModel)))
                                         .toList(),
                                     options: CarouselOptions(
                                       padEnds: false,
@@ -129,7 +130,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
                                         .map(
                                             (movie) => InkWell(
                                                 onTap: () => viewModel.navigator!.goToMovie(movie),
-                                                child: TopRatedLayout(movie, homemodel)))
+                                                child: TopRatedLayout(movie, viewModel)))
                                         .toList(),
                                     options: CarouselOptions(
                                       padEnds: false,

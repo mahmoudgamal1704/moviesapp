@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/TopRatedResponse.dart';
+import 'package:provider/provider.dart';
 
 import '../models/basemodel.dart';
 import '../screens/home/home_viewmodel.dart';
@@ -20,6 +21,8 @@ TopRatedLayout(this.result,this.viewmodel);
 class _TopRatedLayoutState extends State<TopRatedLayout> {
   @override
   Widget build(BuildContext context) {
+    var topmodel=Provider.of<HomeViewModel>(context);
+    topmodel.navigator=widget.viewmodel.navigator;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
       child: Column(
@@ -33,8 +36,7 @@ class _TopRatedLayoutState extends State<TopRatedLayout> {
                 // Image.network('${imagesServer}${widget.result.posterPath}',fit: BoxFit.cover,),
                 InkWell(
                     onTap: () {
-                      widget.viewmodel.favmovies(widget.result.id!.toString());
-
+                      topmodel.favmovies(widget.result.id!.toString());
                     },
                     child: WatchListMark(movieid: widget.result.id!.toString())),
               ],
