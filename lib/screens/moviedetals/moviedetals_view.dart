@@ -7,6 +7,7 @@ import 'package:movieapp/layouts/topratedlayout.dart';
 import 'package:movieapp/models/MovieDetails.dart';
 import 'package:movieapp/screens/moviedetals/moviedetals_nav.dart';
 import 'package:movieapp/shared/items/constants.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/basemodel.dart';
 import 'moviedetals_viewmodel.dart';
@@ -64,9 +65,8 @@ class _MovieDetalsScreenState
                           ),
                           InkWell(
                               onTap: () {
-                                viewModel.navigator!.addRemoveWatchList(
+                                viewModel.favmovies(
                                     widget.movie.id!.toString());
-                                setState(() {});
                               },
                               child: widget.movie.id ==null ? CircularProgressIndicator():
                               WatchListMark(

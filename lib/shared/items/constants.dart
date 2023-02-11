@@ -36,23 +36,6 @@ if (LinearSearch(ids.map((e) => int.parse(e)).toList(), movieid)){
 }
 }
 
-List<int> bubbleSort(List<int> arr){
-  for(int i=0;i<arr.length;i++){
-    bool isSorted=true;
-    for(int j =0 ; j < arr.length-1 ; j++){
-      if(arr[j] > arr[j+1]){
-        int temp=arr[j];
-        arr[j]=arr[j+1];
-        arr[j+1]=temp;
-        isSorted=false;
-      }
-    }
-    if(isSorted) {
-      return arr;
-    }
-  }
-  return arr;
-}
 bool LinearSearch(List<int> arr, int userValue) {
  for(int i =0 ; i < arr.length;i++){
    if (userValue==arr[i]){
@@ -64,7 +47,7 @@ bool LinearSearch(List<int> arr, int userValue) {
 Widget CachedImage (String imageurl){
   return CachedNetworkImage(
     imageUrl: imageurl ?? "",
-    fit: BoxFit.fitHeight,
+    fit: BoxFit.fill,
     // height: 180,
     placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.white,)),
     errorWidget: (context, url, error) => Icon(Icons.error),

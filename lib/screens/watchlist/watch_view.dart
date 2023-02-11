@@ -3,6 +3,8 @@ import 'package:movieapp/base.dart';
 import 'package:movieapp/layouts/watchListlayout.dart';
 import 'package:movieapp/screens/watchlist/watch_nav.dart';
 import 'package:movieapp/screens/watchlist/watch_viewmodel.dart';
+import 'package:provider/provider.dart';
+import '../../layouts/movielayout.dart';
 import '../../shared/items/constants.dart';
 
 class WatchScreen extends StatefulWidget {
@@ -12,7 +14,6 @@ class WatchScreen extends StatefulWidget {
 
 class _WatchScreenState extends BaseView<WatchScreen, WatchViewModel>
     implements WatchNavigator {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -22,76 +23,62 @@ class _WatchScreenState extends BaseView<WatchScreen, WatchViewModel>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('WatchList Movies'),
-        centerTitle: true,
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: viewModel.getmovieDetails(ids),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              print('Wait');
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              print('data');
-              if(snapshot.data!.length > 0 ) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(10),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        height: 100,
-                        child: InkWell(
-                          // onTap: () => viewModel.navigator?.goToMovie(
-                          //     snapshot.data!.results![index]),
-                            child: Stack(
+    return ChangeNotifierProvider(
+      create: (context) => WatchViewModel()..getmovieDetails(ids),
+      builder: (context, child) {
+        var favmodel = Provider.of<WatchViewModel>(context);
+        favmodel.navigator=viewModel.navigator;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('WatchList Movies'),
+            centerTitle: true,
+          ),
+          body: Container(
+              child: ids.isEmpty
+                  ? const Center(
+                      child: Text('no Movies'))
+                  : favmodel.favMovies.isEmpty ? Center(child: CircularProgressIndicator(color: Colors.white,)):ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(10),
+                      itemCount: favmodel.favMovies.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                            height: 100,
+                            child: InkWell(
+                                // onTap: () => favmodel.navigator?.goToMovie(
+                                //     favmodel.favMovies[index]),
+                                child: Stack(
                               children: [
-                                WatchListLayout(snapshot.data![index]),
+                                WatchListLayout(favmodel.favMovies[index]),
                                 InkWell(
                                     onTap: () {
-                                      viewModel.navigator!.addRemoveWatchList(
-                                          snapshot.data![index].id.toString());
-                                      setState(() {});
+                                      favmodel.favmovies(favmodel
+                                          .favMovies[index].id
+                                          .toString());
                                     },
                                     child: WatchListMark(
-                                        movieid: snapshot.data![index].id.toString()))
+                                        movieid: favmodel.favMovies[index].id
+                                            .toString()))
                               ],
                             )));
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(color: Colors.white, height: 10),
-                );
-              }else {
-                return Center(
-                    child: Text(
-                      'No Movies',
-                      style: TextStyle(color: Colors.white),
-                    ));
-              }
-
-            } else {
-              print('error');
-              return Center(
-                  child: Text(
-                'SomeThing Error Happen Please Try Again',
-                style: TextStyle(color: Colors.white),
-              ));
-            }
-          },
-        ),
-      ),
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(color: Colors.white, height: 10),
+                    )),
+        );
+      },
     );
   }
 
   @override
   WatchViewModel initViewModel() {
     return WatchViewModel();
+  }
+
+  @override
+  goToMovie(movie) {
+    // TODO: implement goToMovie
+    Navigator.pushNamed(context, MovieLayout.routeName, arguments: movie);
+
   }
 }

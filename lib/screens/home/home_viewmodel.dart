@@ -17,11 +17,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator> {
   List<Results> popularmovies =[];
   List<Results> newmovies =[];
   List<Results> topmovies =[];
-void favmovies(String id ){
-  print('dd');
-  navigator?.addRemoveWatchList(id);
-  notifyListeners();
-}
+
 
   Future<void> getpopularMoviesresults() async {
     try{

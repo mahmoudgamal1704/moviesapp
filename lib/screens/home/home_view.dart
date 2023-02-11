@@ -39,7 +39,7 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
         ..getTopRatedMoviesresults()
         ..getNowPlayingMoviesresults(),
       builder: (context, child) {
-        print('ag');
+
         var homemodel = Provider.of<HomeViewModel>(context);
         return Container(
           width: MediaQuery.of(context).size.width,

@@ -14,6 +14,11 @@ abstract class BaseNavigator {
 
 class BaseViewModel<NAV extends BaseNavigator> extends ChangeNotifier {
   NAV? navigator = null;
+
+  void favmovies(String id ){
+    navigator?.addRemoveWatchList(id);
+    notifyListeners();
+  }
 }
 
 abstract class BaseView<T extends StatefulWidget, VM extends BaseViewModel>
@@ -59,11 +64,9 @@ abstract class BaseView<T extends StatefulWidget, VM extends BaseViewModel>
     } else {
       ids.insert(ids.length,movieid);
     }
-    print('${ids}   ghghj');
+
     prefs?.setStringList('favmovies', ids);
 
-    print(prefs?.getStringList("favmovies"));
-    print(ids);
   }
 
   @override

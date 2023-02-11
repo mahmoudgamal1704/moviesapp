@@ -1,21 +1,35 @@
-
 import 'package:movieapp/base.dart';
 import 'package:movieapp/screens/watchlist/watch_nav.dart';
 
 import '../../models/MovieDetails.dart';
 import '../../shared/network/remote/apimanager.dart';
 
-class WatchViewModel extends BaseViewModel<WatchNavigator>{
+class WatchViewModel extends BaseViewModel<WatchNavigator> {
+  List<MovieDetails> favMovies = [];
 
-
-
-Future<List<MovieDetails>> getmovieDetails(List<String> moviesid) async {
-  List<MovieDetails> favMovies =[];
-  for(int i = 0 ; i< moviesid.length ; i++ ){
-    MovieDetails movieDetails = (await ApiManager.getMovieDetals(moviesid[i]))!;
-    favMovies.insert(favMovies.length, movieDetails);
+  @override
+  void favmovies(String id) {
+    navigator?.addRemoveWatchList(id);
+    for(int i = 0 ; i< favMovies.length ; i++ ){
+      if (favMovies[i].id.toString() == id){
+        favMovies.removeAt(i);
+        break;
+      }
+    }
+    notifyListeners();
   }
-  return favMovies;
-}
 
+  Future<void> getmovieDetails(List<String> moviesid) async {
+    try {
+      for (int i = 0; i < moviesid.length; i++) {
+        MovieDetails movieDetails =
+            (await ApiManager.getMovieDetals(moviesid[i]))!;
+        favMovies.insert(favMovies.length, movieDetails);
+      }
+    } catch (err) {
+      navigator!.showMessage('${err.toString()}');
+    }
+
+    notifyListeners();
+  }
 }

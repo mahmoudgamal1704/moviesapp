@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/providers/mainprovider.dart';
 import 'package:movieapp/screens/home/home_view.dart';
 import 'package:movieapp/screens/movies/movies_view.dart';
 import 'package:movieapp/screens/search/search_view.dart';
@@ -15,17 +16,18 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    var myprov = Provider.of<MainProvider>(context);
     return  Scaffold(
           // backgroundColor: Constants.mainBGColor,
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: currentIndex,
+            currentIndex: myprov.mainIndex,
             onTap: (value) {
-              currentIndex = value;
-              setState(() {});
+              myprov.changeIndex(value);
+              // currentIndex = value;
+              // setState(() {});
             },
             type: BottomNavigationBarType.fixed,
             items: const [
@@ -47,7 +49,7 @@ class _MainLayoutState extends State<MainLayout> {
                       size: 30)),
             ],
           ),
-          body : tabs[currentIndex],
+          body : tabs[myprov.mainIndex],
 
         );
   }

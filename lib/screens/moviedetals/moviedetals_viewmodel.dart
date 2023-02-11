@@ -10,6 +10,8 @@ class MovieDetailsViewModel extends BaseViewModel<MovieDetalsNav>{
   MovieDetails movie =MovieDetails();
   List<Results> similarmovies =[];
   var movietime ='';
+
+
   Future<void> getmovieDetails(String id) async {
     try{ MovieDetails movieDetails = (await ApiManager.getMovieDetals(id))!;
     movie = movieDetails;
