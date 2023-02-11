@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/screens/home/home_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
+/////////////////////////////////////////////
 const String BASE = 'api.themoviedb.org';
 const String APIKEY = '070a8fbba8968dea6e4a9aca8a217ef0';
 const String latestEndPoint = '/3/movie/latest';
@@ -19,9 +16,9 @@ const String FilteredmoviesEndPoint = '/3/discover/movie';
 // Obtain shared preferences.
 
 SharedPreferences? prefs ;
-Future<void> initSharedPreferences () async {
-  prefs = await  SharedPreferences.getInstance();
-}
+// Future<void> initSharedPreferences () async {
+//   prefs = await  SharedPreferences.getInstance();
+// }
 late List<String> ids;
 void getWatchListIds(){
   ids = prefs?.getStringList('favmovies') ?? [];

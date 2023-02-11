@@ -10,7 +10,7 @@ import 'mytheme.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => MainProvider(),
+    create: (context) => MainProvider()..initSharedPreferences(),
     child: MyApp(),
   ));
 }
@@ -19,8 +19,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    initSharedPreferences();
-    getWatchListIds();
     return MaterialApp(
       theme: MyTheme.darkTheme,
       darkTheme: MyTheme.darkTheme,
