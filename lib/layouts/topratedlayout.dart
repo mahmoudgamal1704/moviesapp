@@ -33,12 +33,9 @@ class _TopRatedLayoutState extends State<TopRatedLayout> {
                 // Image.network('${imagesServer}${widget.result.posterPath}',fit: BoxFit.cover,),
                 InkWell(
                     onTap: () {
-                          widget.viewmodel.navigator!
-                              .addRemoveWatchList(widget.result.id!.toString());
-                          setState(() {
+                      widget.viewmodel.favmovies(widget.result.id!.toString());
 
-                          });
-                        },
+                    },
                     child: WatchListMark(movieid: widget.result.id!.toString())),
               ],
             ),

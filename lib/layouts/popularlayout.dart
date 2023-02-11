@@ -57,11 +57,8 @@ class _PopularLayoutState extends State<PopularLayout> {
               ),
               InkWell(
                   onTap:() {
-                    widget.viewmodel.navigator!
-                        .addRemoveWatchList(widget.movie.id!.toString());
-                    setState(() {
+                    widget.viewmodel.favmovies(widget.movie.id!.toString());
 
-                    });
                   },
                   child: WatchListMark(leftmargin: 20, topmargin: 30,movieid: widget.movie.id!.toString()))
             ],

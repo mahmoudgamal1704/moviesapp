@@ -38,11 +38,8 @@ class _NewReleaseLayoutState extends State<NewReleaseLayout> {
         ),
         InkWell(
             onTap: () {
-        widget.viewmodel.navigator!
-            .addRemoveWatchList(widget.result.id!.toString());
-        setState(() {
+        widget.viewmodel.favmovies(widget.result.id!.toString());
 
-        });
         },
             child: WatchListMark(movieid: widget.result.id!.toString()))
       ],

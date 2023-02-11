@@ -10,6 +10,7 @@ import 'package:movieapp/screens/home/home_viewmodel.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:movieapp/shared/items/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,88 +23,134 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
   void initState() {
     // TODO: implement initState
     super.initState();
-
     viewModel.navigator = this;
   }
 
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      // color: Colors.green,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 50,
+    return ChangeNotifierProvider(
+      create: (context) => HomeViewModel()
+        ..getpopularMoviesresults()
+        ..getTopRatedMoviesresults()
+        ..getNowPlayingMoviesresults(),
+      builder: (context, child) {
+        var homemodel = Provider.of<HomeViewModel>(context);
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          // color: Colors.green,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Expanded(
+                child: homemodel.newmovies.isEmpty
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ))
+                    : CarouselSlider(
+                        items: homemodel.newmovies
+                            .map((movie) => InkWell(
+                            onTap: () => viewModel.navigator!.goToMovie(movie),
+                            child: PopularLayout(movie, homemodel)))
+                            .toList(),
+                        options: CarouselOptions(
+                            viewportFraction: 1,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            enableInfiniteScroll: false,
+                            height: MediaQuery.of(context).size.width)),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                  child: Container(
+                      padding: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      color: Color.fromRGBO(40, 42, 40, 1.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(child: Text("New Release")),
+                          Expanded(
+                            child: homemodel.popularmovies.isEmpty
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ))
+                                : CarouselSlider(
+                                    items: homemodel.popularmovies
+                                        .map((movie) =>
+                                            InkWell(
+                                                onTap: () => viewModel.navigator!.goToMovie(movie),
+                                                child: NewReleaseLayout(movie, homemodel)))
+                                        .toList(),
+                                    options: CarouselOptions(
+                                      padEnds: false,
+                                      enableInfiniteScroll: false,
+                                      disableCenter: true,
+                                      viewportFraction: .4,
+                                      height: MediaQuery.of(context).size.width,
+                                      enlargeStrategy:
+                                          CenterPageEnlargeStrategy.height,
+                                      enlargeCenterPage: false,
+                                    ),
+                                  ),
+                          )
+                        ],
+                      ))),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                  child: Container(
+                      padding: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      color: Color.fromRGBO(40, 42, 40, 1.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Recomended"),
+                          Expanded(
+                            child: homemodel.topmovies.isEmpty
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ))
+                                : CarouselSlider(
+                                    items: homemodel.topmovies
+                                        .map(
+                                            (movie) => InkWell(
+                                                onTap: () => viewModel.navigator!.goToMovie(movie),
+                                                child: TopRatedLayout(movie, homemodel)))
+                                        .toList(),
+                                    options: CarouselOptions(
+                                      padEnds: false,
+                                      enableInfiniteScroll: false,
+                                      disableCenter: true,
+                                      viewportFraction: .4,
+                                      height: MediaQuery.of(context).size.width,
+                                      enlargeStrategy:
+                                          CenterPageEnlargeStrategy.height,
+                                      enlargeCenterPage: false,
+                                    )),
+                          ),
+                        ],
+                      ))),
+              SizedBox(
+                height: 15,
+              ),
+            ],
           ),
-          Expanded(
-            child: FutureBuilderAPIwithSlider(viewModel.getNowPlayingMoviesresults, viewModel,CarouselOptions( viewportFraction: 1,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                enableInfiniteScroll: false,
-                height: MediaQuery.of(context).size.width),"now"),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-              child: Container(
-                  padding: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  color: Color.fromRGBO(40, 42, 40, 1.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("New Release"),
-                      Expanded(
-                        child: FutureBuilderAPIwithSlider(viewModel.getpopularMoviesresults, viewModel,CarouselOptions(
-                          padEnds: false,
-                          enableInfiniteScroll: false,
-                          disableCenter: true,
-                          viewportFraction: .4,
-                          height: MediaQuery.of(context).size.width,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                          enlargeCenterPage: false,
-                        ),"new"),
-                      ),
-                    ],
-                  ))),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-              child: Container(
-                  padding: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  color: Color.fromRGBO(40, 42, 40, 1.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Recomended"),
-                      Expanded(
-                        child: FutureBuilderAPIwithSlider(viewModel.getTopRatedMoviesresults, viewModel,CarouselOptions(
-                          padEnds: false,
-                          enableInfiniteScroll: false,
-                          disableCenter: true,
-                          viewportFraction: .4,
-                          height: MediaQuery.of(context).size.width,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                          enlargeCenterPage: false,
-                        ),"top"),
-                      ),
-                    ],
-                  ))),
-          SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -115,6 +162,6 @@ class _HomeScreenState extends BaseView<HomeScreen, HomeViewModel>
 
   @override
   goToMovie(movie) {
-    Navigator.pushNamed(context, MovieLayout.routeName,arguments: movie);
+    Navigator.pushNamed(context, MovieLayout.routeName, arguments: movie);
   }
 }

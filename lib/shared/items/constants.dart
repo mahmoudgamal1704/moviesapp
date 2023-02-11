@@ -24,14 +24,12 @@ Future<void> initSharedPreferences () async {
 }
 late List<String> ids;
 void getWatchListIds(){
-  print(prefs?.getStringList("favmovies"));
   ids = prefs?.getStringList('favmovies') ?? [];
 }
 
 checkWatchList (int movieid){
 getWatchListIds();
 if (LinearSearch(ids.map((e) => int.parse(e)).toList(), movieid)){
-  print('done');
   return ids.indexOf(movieid.toString());
 }else {
   return -1;
@@ -66,49 +64,33 @@ bool LinearSearch(List<int> arr, int userValue) {
 Widget CachedImage (String imageurl){
   return CachedNetworkImage(
     imageUrl: imageurl ?? "",
-    fit: BoxFit.fill,
-    height: 180,
+    fit: BoxFit.fitHeight,
+    // height: 180,
     placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.white,)),
     errorWidget: (context, url, error) => Icon(Icons.error),
   );
 }
-Widget FutureBuilderAPIwithSlider (Function  getdata ,HomeViewModel datalist,CarouselOptions options,String layoutType) {
-  return FutureBuilder (
-    future:  getdata(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return CarouselSlider(
-          items: layoutType=="now" ? datalist.popwidgets:layoutType=="new" ? datalist.newwidgets:datalist.topwidgets,
-          options: options,
-        );
-      } else {
-        return Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        );
-      }
-    },
-  );
-}
 Widget WatchListMark ( {double topmargin = 0, double leftmargin = 0,required String movieid}){
-return Stack(
-  children: [
-    Container(
-      margin: EdgeInsets.only(left: leftmargin,top: topmargin),
-        child: ImageIcon(
-          AssetImage('assets/images/bookmark.png'),
-          // color: Color.fromRGBO(247, 181, 57, 1.0),
-          color:checkWatchList(int.parse(movieid)) >= 0 ? Color.fromRGBO(247, 181, 57, 1.0) :Color.fromRGBO(
-              81, 79, 79, 1.0) ,
-        )),
-    Container(
-        margin: EdgeInsets.only(left: leftmargin+4,top: topmargin),
-        child: Icon(
-          checkWatchList(int.parse(movieid)) >= 0 ? Icons.check :Icons.add,
-          size: 15,
-        ))
-  ],
-);
-}
+  return Stack(
+    children: [
+      Container(
+          margin: EdgeInsets.only(left: leftmargin,top: topmargin),
+          child: ImageIcon(
+            AssetImage('assets/images/bookmark.png'),
+            // color: Color.fromRGBO(247, 181, 57, 1.0),
+            color:checkWatchList(int.parse(movieid)) >= 0 ? Color.fromRGBO(247, 181, 57, 1.0) :Color.fromRGBO(
+                81, 79, 79, 1.0) ,
+          )),
+      Container(
+          margin: EdgeInsets.only(left: leftmargin+4,top: topmargin),
+          child: Icon(
+            checkWatchList(int.parse(movieid)) >= 0 ? Icons.check :Icons.add,
+            size: 15,
+          ))
+    ],
+  );
+  }
+
 
 Widget CheckAPIdata (AsyncSnapshot snapshot) {
   if(snapshot.connectionState ==ConnectionState.waiting){

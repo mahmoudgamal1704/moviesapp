@@ -8,13 +8,15 @@ import 'package:movieapp/models/MovieDetails.dart';
 import 'package:movieapp/screens/moviedetals/moviedetals_nav.dart';
 import 'package:movieapp/shared/items/constants.dart';
 
+import '../../models/basemodel.dart';
 import 'moviedetals_viewmodel.dart';
 
 class MovieDetalsScreen extends StatefulWidget {
   // const MovieDetalsScreen({Key? key}) : super(key: key);
-  String? id;
-
-  MovieDetalsScreen(this.id);
+  MovieDetails movie;
+  String movietime;
+List<Results> similarmovies;
+  MovieDetalsScreen(this.movie, this.movietime,this.similarmovies);
 
   @override
   State<MovieDetalsScreen> createState() => _MovieDetalsScreenState();
@@ -30,171 +32,132 @@ class _MovieDetalsScreenState
       child: Column(
         children: [
           Expanded(
-            child: FutureBuilder(
-              future: viewModel.getmovieDetails(widget.id ?? ""),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  int moviehour = (snapshot.data!.runtime! / 60).toInt();
-                  // var movietime = ((snapshot.data!.runtime! / 60) + (snapshot.data!.runtime! % 60)).toString() ;
-                  var movietime =
-                      '${moviehour}  h  ${snapshot.data!.runtime! % 60}  m';
-                  return Column(
+            flex: 2,
+            child: Column(
+              children: [
+                Expanded(
+                    child: widget.movie.backdropPath == null
+                        ? Image.asset('assets/images/nomovieicon.png')
+                        : CachedImage(
+                            '${imagesServer + widget.movie.backdropPath!}')),
+                SizedBox(
+                  height: 15,
+                ),
+                Text('${widget.movie.title ?? ''}'),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                    '${widget.movie.releaseDate?.substring(0, 4)}  ${widget.movietime}'),
+                SizedBox(
+                  height: 15,
+                ),
+                Expanded(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Stack(
+                        children: [
+                          widget.movie.posterPath ==null ? Image.asset('assets/images/nomovieicon.png'):
+                          CachedImage(
+                            '${imagesServer + widget.movie.posterPath!}',
+                          ),
+                          InkWell(
+                              onTap: () {
+                                viewModel.navigator!.addRemoveWatchList(
+                                    widget.movie.id!.toString());
+                                setState(() {});
+                              },
+                              child: widget.movie.id ==null ? CircularProgressIndicator():
+                              WatchListMark(
+                                  movieid: widget.movie.id!.toString()))
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
-                          child: snapshot.data!.backdropPath == null
-                              ? Image.asset('assets/images/nomovieicon.png')
-                              : CachedImage('${imagesServer + snapshot.data!.backdropPath!}')),
-                          // Image.network(
-                          //         '${imagesServer + snapshot.data!.backdropPath!}',
-                          //         width: MediaQuery.of(context).size.width,
-                          //         fit: BoxFit.fill,
-                          //       )),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text('${snapshot.data!.title!}'),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                          '${snapshot.data!.releaseDate!.substring(0, 4)}  ${movietime}'),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            Stack(
-                              children: [
-                                Image.network(
-                                  '${imagesServer + snapshot.data!.posterPath!}',
-                                  width: 120,
+                            widget.movie.genres ==null ? CircularProgressIndicator() :
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.movie.genres!.length ,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 16 / 9,
+                                  mainAxisExtent: 30,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
                                 ),
-                                InkWell(
-                                    onTap: () {
-                                      viewModel.navigator!.addRemoveWatchList(
-                                          snapshot.data!.id!.toString());
-                                      setState(() {});
-                                    },
-                                    child: WatchListMark(
-                                        movieid: snapshot.data!.id!.toString()))
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    // height: 50,
-                                    // color:Colors.red,
-                                    child: GridView.builder(
-                                      // clipBehavior: Clip.antiAlias,
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.genres!.length,
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        childAspectRatio: 16 / 9,
-                                        mainAxisExtent: 30,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          padding: EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.white),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Text(
-                                              '${snapshot.data!.genres![index].name}'),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child:
-                                          Text('${snapshot.data!.overview}')),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color:
-                                            Color.fromRGBO(255, 187, 59, 1.0),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("${snapshot.data!.voteAverage}")
-                                    ],
-                                  ),
-                                ],
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Text(
+                                        '${widget.movie.genres![index].name}'),
+                                  );
+                                },
                               ),
+                            ),
+                            Expanded(child: Text('${widget.movie.overview}')),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Color.fromRGBO(255, 187, 59, 1.0),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("${widget.movie.voteAverage}")
+                              ],
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('More Like This'),
-                          Expanded(
-                            child: FutureBuilder(
-                              future:
-                                  viewModel.getSimilarMovies(widget.id ?? ""),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return CarouselSlider(
-                                    items: snapshot.data!.results!.map((e) {
-                                      return InkWell(
-                                          onTap: () {
-                                            viewModel.navigator!
-                                                .goToMovieDetails(e);
-                                          },
-                                          child: SimilarLayout(e, viewModel));
-                                    }).toList(),
-                                    options: CarouselOptions(
-                                      padEnds: false,
-                                      enableInfiniteScroll: false,
-                                      disableCenter: true,
-                                      viewportFraction: .4,
-                                      height: MediaQuery.of(context).size.width,
-                                      enlargeStrategy:
-                                          CenterPageEnlargeStrategy.height,
-                                      enlargeCenterPage: false,
-                                    ),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                        color: Colors.white),
-                                  );
-                                }
-                              },
-                            ),
-                          )
-                        ],
-                      ))
+
                     ],
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(color: Colors.white),
-                  );
-                }
-              },
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('More Like This'),
+                  Expanded(
+                      child: CarouselSlider(
+                        items: widget.similarmovies.map((e) {
+                          return InkWell(
+                              onTap: () {
+                                viewModel.navigator!
+                                    .goToMovieDetails(e);
+                              },
+                              child: SimilarLayout(e, viewModel));
+                        }).toList(),
+                        options: CarouselOptions(
+                          padEnds: false,
+                          enableInfiniteScroll: false,
+                          disableCenter: true,
+                          viewportFraction: .4,
+                          height: MediaQuery.of(context).size.width,
+                          enlargeStrategy:
+                          CenterPageEnlargeStrategy.height,
+                          enlargeCenterPage: false,
+                        ),
+                      )
+                  )
+                ],
+              ))
         ],
       ),
     );
